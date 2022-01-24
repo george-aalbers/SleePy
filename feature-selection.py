@@ -5,37 +5,34 @@ def select_features():
     '''
     
     import pandas as pd
-    features_merged = pd.DataFrame()
 
-    for file in ["data-durationSeconds.csv", "data-startMinute.csv", "data-endMinute.csv"]:
+    # Read file
+    df = pd.read_csv("data.csv", index_col = 0)
 
-        # Read file
-        df = pd.read_csv(file, index_col = 0)
-        
-        # Get targets from file
-        targets = df.iloc[:,:9]
-        
-        # Aggregate per person per date
-        df = df.groupby(['id','date']).mean().reset_index()
-        
-        # Get column names for features
-        feature_names = df.columns.tolist()[93:-48]
-        feature_names.extend(["id","date"])
-        
-        # Select features (and id and date)
-        features = df[feature_names]
-        
-        # Set index to id and date
-        features.set_index(["id","date"], inplace=True)
-        
-        # Modify feature names
-        names = file[5:-4] + "_" + pd.Series(df.columns.tolist()[93:-48])
-        names = names.str.replace("_x","")
-        names = names.str.replace("_y","")
-        
-        # Change column names for feature dataframe
-        features.columns = names
-        features_merged = pd.concat([features_merged, features], axis = 1)
+    # Get targets from file
+    targets = df["self_reported_sleep_duration"]
+
+    # Aggregate per person per date
+    df = df.groupby(['id','date']).mean().reset_index()
+
+    # Get column names for features
+    feature_names = df.columns.tolist()[93:-48]
+    feature_names.extend(["id","date"])
+
+    # Select features (and id and date)
+    features = df[feature_names]
+
+    # Set index to id and date
+    features.set_index(["id","date"], inplace=True)
+
+    # Modify feature names
+    names = file[5:-4] + "_" + pd.Series(df.columns.tolist()[93:-48])
+    names = names.str.replace("_x","")
+    names = names.str.replace("_y","")
+
+    # Change column names for feature dataframe
+    features.columns = names
+    features_merged = pd.concat([features_merged, features], axis = 1)
 
     # Reset index from feature dataframe
     features_merged.reset_index(inplace=True)

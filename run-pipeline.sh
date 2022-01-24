@@ -2,18 +2,6 @@ nohup python data-preparation.py
 
 sleep 10
 
-nohup python resample-log-data.py 
-
-sleep 10
-
-nohup python merge-log-with-survey.py 
-
-sleep 10
-
-nohup python pivot-dataframe.py
-
-sleep 10
-
 nohup python feature-selection.py
 
 sleep 10
