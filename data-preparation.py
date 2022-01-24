@@ -7,7 +7,7 @@ import numpy as np
 
 # Read data
 print("Reading the data.")
-log_data = pd.read_csv("/home/haalbers/dissertation/mobiledna-clean.csv", index_col = 0)
+log_data = pd.read_csv("/home/haalbers/dissertation/mobiledna-clean.csv", index_col = 0, nrows = 100000)
 esm_data = pd.read_csv("/home/haalbers/dissertation/experience-sampling-clean.csv", index_col = 0)
 
 # Resample log_data to quarter-of-an-hourly timescale 
