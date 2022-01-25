@@ -29,7 +29,7 @@ def build_model(study_parameters):
         elif study_parameters["model_type"] == "svr":
             model = svm.SVR()
         elif study_parameters["model_type"] == "gbr":
-            model = svm.GradientBoostingRegressor()
+            model = ensemble.GradientBoostingRegressor()
         else:
             print("What are you doing?")
             print(study_parameters["model_type"])
