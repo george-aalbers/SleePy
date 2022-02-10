@@ -1,3 +1,3 @@
 # NeonSleep
 
-This Github repository contains code for the project "NeonSleep: An open-source package for estimating sleep duration from smartphone log data". 
+This Github repository contains code for the project "NeonSleep: An open-source package for estimating sleep duration from smartphone log data". We use transform_mobiledna.py to transform the smartphone application usage log data into a format that allows us to downsample the smartphone log data to 15-minute time windows (i.e., total time spent on the smartphone per 15-minute time window). We then use clean_mobiledna.py to clean these data. We then use do_study.py to run a list of Python functions that (1) preprocess the data, (2) split the data, (3) train models, (4) evaluate models, and (5) create tables and visualisations.
