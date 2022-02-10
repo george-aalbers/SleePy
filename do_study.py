@@ -1,9 +1,9 @@
 '''
 Description
 ---
-This function conducts an entire preregistered ML study from scratch. It takes as input the parameter specification for the entire study as well as path strings for 
+This function conducts an entire ML study from scratch. It takes as input the parameter specification for the entire study as well as path strings for 
 the location of log and experience sampling data. It then conducts a study, which entails outputting an entire directory of extracted features, trained models, model 
-evaluation, summaries and visualisations of results.
+evaluation, and visualisations.
 
 Input
 ---
@@ -25,6 +25,7 @@ from preprocessing import preprocess, select_features_targets_ids, scale_feature
 from train_models import train_models
 from evaluate_models import table_2
 from figures import plot_figures
+from in_text import in_text
 
 # Specify the study parameters
 print("Specifying the study parameters")
@@ -81,5 +82,6 @@ print("Model training has finished.")
 
 # Prepare manuscript
 print("Preparing input for manuscript")
+in_text()
 table_2()
 plot_figures()
