@@ -15,7 +15,7 @@ def study_parameters():
     root_folder = os.getcwd()     
 
     # Number of experiments
-    n_experiments = 8
+    n_experiments = 4
     
     # Features
     features = {'21:00:00', '21:15:00', '21:30:00', '21:45:00', '22:00:00', 
@@ -39,7 +39,7 @@ def study_parameters():
     targets = "self_reported_sleep_duration"
     
     # Model types in this study 
-    models = ["lasso", "svr", "rf", "gbr", "lasso", "svr", "rf", "gbr"]
+    models = ["lasso", "svr", "rf", "gbr"]
     
     # Hyperparameters of the models we train in the study
     lasso_parameters = {"alpha": [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]}
@@ -58,39 +58,36 @@ def study_parameters():
                      'max_depth' : [1, 5, 10]
                      }
 
-    gbr_parameters = {'learning_rate': np.arange(0.1,0.9,0.1),
-                   'alpha': np.arange(0.1,0.9,0.1),
-                   'n_estimators': [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)],
-                   'max_features': ['auto', 'sqrt'],
-                   'max_depth': [int(x) for x in np.linspace(10, 110, num = 11)],
-                   'min_samples_split': [2, 5, 10],
-                   'min_samples_leaf': [1, 2, 4]}
+    gbr_parameters = {'learning_rate': np.arange(0.4,0.5,0.1),
+                   'alpha': np.arange(0.3,0.4,0.1),
+                   'n_estimators': [int(x) for x in np.linspace(start = 800, stop = 1000, num = 100)],
+                   'max_features': ['auto'],
+                   'max_depth': [int(x) for x in np.linspace(60, 70, num = 5)],
+                   'min_samples_split': [10, 50, 100],
+                   'min_samples_leaf': [2, 4]}
     
-    model_parameters = [lasso_parameters, svm_parameters, rf_parameters, gbr_parameters, lasso_parameters, svm_parameters, rf_parameters, gbr_parameters]
+    model_parameters = [lasso_parameters, svm_parameters, rf_parameters, gbr_parameters]
     
     # Dataframe containing instructions for the study
     study_parameters = pd.DataFrame({"esm_data_path":             np.repeat('/home/haalbers/dissertation/experience-sampling-clean.csv', n_experiments),
                                      "log_data_path":             np.repeat("/home/haalbers/dissertation/mobiledna-clean.csv", n_experiments),
                                      "data_output_path":          (root_folder + "/experiment-" + pd.Series(range(1, n_experiments + 1, 1)).astype(str) + "/" + "data/").values,
                                      "model_output_path":         (root_folder + "/experiment-" + pd.Series(range(1, n_experiments + 1, 1)).astype(str) + "/" + "models/").values,
-                                     "results_output_path":       (root_folder + "/experiment-" + pd.Series(range(1, n_experiments + 1, 1)).astype(str) + "/" + "results/").values,
-                                     "explanations_output_path":  (root_folder + "/experiment-" + pd.Series(range(1, n_experiments + 1, 1)).astype(str) + "/" + "explanations/").values,
                                      "baseline_path":             np.repeat(root_folder + "/baseline/", n_experiments),
                                      "markdown_path":             np.repeat(root_folder + "/markdown/", n_experiments),
                                      "id_variable":               np.repeat("id", n_experiments),
                                      "features":                  np.tile(features, n_experiments),
                                      "targets":                   np.tile(targets, n_experiments),                                     
                                      "experiment":                range(1, n_experiments + 1),
-                                     "experiment_type":           ["nomothetic", "nomothetic", "nomothetic", "nomothetic",
-                                                                   "idiographic", "idiographic", "idiographic", "idiographic"],
+                                     "experiment_type":           ["nomothetic", "nomothetic", "nomothetic", "nomothetic"],
                                      "window_size":               np.repeat(15, n_experiments),
                                      "prediction_task":           np.repeat("regression", n_experiments),
-                                     "cross_validation_type":     np.repeat("grid", n_experiments),
+                                     "cross_validation_type":     np.repeat("random", n_experiments),
                                      "outer_loop_cv_k_folds":     np.repeat(5, n_experiments),
                                      "inner_loop_cv_k_folds":     np.repeat(5, n_experiments),
                                      "time_series_k_splits":      np.repeat(1, n_experiments),
                                      "time_series_test_size":     np.repeat(0.2, n_experiments),
-                                     "n_jobs":                    np.repeat(64, n_experiments),
+                                     "n_jobs":                    np.repeat(96, n_experiments),
                                      "model_type":                models,
                                      "model_parameters":          model_parameters}, 
                                     index = np.arange(n_experiments))

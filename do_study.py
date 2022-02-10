@@ -23,8 +23,8 @@ from study_parameters import study_parameters
 from create_directory import create_directory
 from preprocessing import preprocess, select_features_targets_ids, scale_features, order_features
 from train_models import train_models
-from mae import mae_nomothetic_models, mae_idiographic_models
-from spearman_rho import rho_nomothetic_models, rho_idiographic_models
+from evaluate_models import table_2
+from figures import plot_figures
 
 # Specify the study parameters
 print("Specifying the study parameters")
@@ -79,11 +79,7 @@ for experiment in study_parameters.iterrows():
 
 print("Model training has finished.")
 
-# Evaluating results
-mae_nomothetic_models()
-mae_idiographic_models()
-rho_nomothetic_models()
-rho_idiographic_models()
-    
-# Print message that pipeline has finished
-print("Pipeline has finished.")
+# Prepare manuscript
+print("Preparing input for manuscript")
+table_2()
+plot_figures()

@@ -1,5 +1,5 @@
 from sklearn.model_selection import GroupKFold
-from preprocessing import center, flatten_targets
+from preprocessing import flatten_targets
 from write_to_file import write_to_file
 from build_model import build_model
 from train_model import train_model

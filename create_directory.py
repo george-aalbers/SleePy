@@ -53,4 +53,4 @@ def create_directory(number_of_experiments):
     if not os.path.exists(newpath):
         os.makedirs(newpath)
         
-create_directory(6)
+create_directory(8)

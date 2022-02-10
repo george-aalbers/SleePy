@@ -48,6 +48,6 @@ def build_model(study_parameters):
     if study_parameters["cross_validation_type"] == "grid":
         model = GridSearchCV(model, study_parameters["model_parameters"], n_jobs = study_parameters["n_jobs"], pre_dispatch = study_parameters["n_jobs"], cv = study_parameters["inner_loop_cv_k_folds"])
     elif study_parameters["cross_validation_type"] == "random":
-        model = RandomizedSearchCV(model, study_parameters["model_parameters"], n_jobs = study_parameters["n_jobs"], pre_dispatch = study_parameters["n_jobs"], cv = study_parameters["inner_loop_cv_k_folds"], n_iter = 1000, random_state = 0)
+        model = RandomizedSearchCV(model, study_parameters["model_parameters"], n_jobs = study_parameters["n_jobs"], pre_dispatch = study_parameters["n_jobs"], cv = study_parameters["inner_loop_cv_k_folds"], n_iter = 50, random_state = 0)
     
     return model
