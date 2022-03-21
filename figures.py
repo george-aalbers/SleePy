@@ -14,14 +14,15 @@ def figure_1():
     # Read data
     data = pd.read_csv("/home/haalbers/dissertation/mobiledna-clean.csv", index_col = 0)
     study_parameters = pd.read_json("study_parameters.json")
-    
+
     # Aggregate per hour, per day, across individuals to reproduce Aledavood et al. (2020) Fig 1
     data["time"] = pd.to_datetime(data["time"])
     data.set_index("time", inplace=True)
-    data = data.groupby("id").resample("H").durationSeconds.sum()
+    data = data.groupby("id").resample("15Min").durationSeconds.sum()
     data = pd.DataFrame(data.reset_index())
     data["weekday"] = pd.to_datetime(data.time).dt.dayofweek
-    data["HH"] = pd.to_datetime(data.time).dt.hour
+    data["hour"] = pd.to_datetime(data.time).dt.hour
+    data["minute"] = pd.to_datetime(data.time).dt.minute
     data["date"] = pd.to_datetime(data["time"]).dt.date
 
     # Drop dates without any smartphone usage
@@ -29,29 +30,32 @@ def figure_1():
     data = data[data.durationSeconds_y != 0]
 
     # Select relevant variables and rename durationSeconds_x
-    data = data[["id","weekday","HH","durationSeconds_x"]]
+    data = data[["id","weekday", "hour", "minute","durationSeconds_x"]]
     data.rename({"durationSeconds_x":"durationSeconds"}, axis=1, inplace=True)
 
-    # Calculate average hourly time spent on smartphone per weekday 
-    hourly_use = pd.DataFrame(data.groupby(["weekday","HH"]).durationSeconds.mean())
+    # Calculate average quarterly time spent on smartphone per weekday 
+    quarterly_use = pd.DataFrame(data.groupby(["weekday","hour","minute"]).durationSeconds.mean())
 
     # Normalize smartphone usage duration
     normalized_use = hourly_use.durationSeconds.values/sum(hourly_use.durationSeconds.values)
 
     # Visualize normalized smartphone usage duration across the week
-    sns.set_theme()
-    fig = plt.figure(figsize=(20,5))
+    sns.set(rc={'axes.facecolor':'white', 'figure.facecolor':'white'})
+    fig = plt.figure(figsize=(20,10))
     ax = fig.add_axes([0.1, 0.1, 0.8, 0.8])
-    ax.plot(hourly_use.values)
-    ax.set_xticks(range(0,164,24))
-    ax.set_xticklabels(['Mo','Tu','We','Th','Fr','Sa','Su'])
-    plt.xlim(0,170)
-    plt.ylim(0,900)
-    plt.xlabel("Hours since start of week")
-    plt.ylabel("Mean time on smartphone applications (seconds)")
-    plt.vlines(range(0,168,24),0,900,color="red")
-    plt.vlines(range(12,168,24),0,900,color="gray",linestyles="dashed")
-    plt.title("Mean time on smartphone applications per hour (aggregated across participants)", fontdict={'fontsize': 24})
+    ax.plot(quarterly_use.values, color = "#36a0ac")
+    ax.set_xticks(range(0,672,96))
+    ax.set_xticklabels(['Mo','Tu','We','Th','Fr','Sa','Su'], fontdict={'fontsize': 24})
+    ax.set_yticks(range(0,300,100))
+    ax.set_yticklabels(['0', '100', '200'], fontdict={'fontsize': 24})
+    plt.xlim(-10,672)
+    plt.ylim(0,200)
+    plt.xlabel("Time (15-minute windows)", fontdict={'fontsize': 24})
+    plt.ylabel("Average smartphone app usage (seconds)", fontdict={'fontsize': 24})
+    plt.vlines(range(96,672,96),0,900,color="black")
+    plt.vlines(range(48,672,96),0,900,color="black",linestyles="dashed")
+    plt.title("Average time on smartphone applications per 15-minute window", fontdict={'fontsize': 24})
+    plt.tight_layout()
     plt.savefig(study_parameters["markdown_path"][0] + "figure_1.png")
     plt.clf()
 
@@ -76,10 +80,11 @@ def figure_2():
     # Create plot for each participant
     sns.set(rc={"figure.figsize":(10, 10)}, font_scale=4)
     palette = sns.color_palette("mako", as_cmap=True)
-    for pp in ["User #24612", "User #24225", "User #24198", "User #15258"]:
+    for pp in ["User #24198", "User #15258"]:
         print("Creating panel for participant", pp)
         pp_data = data[(data.reset_index().id == pp).values]
         pp_data.set_index(["Date"], inplace=True)
+        pp_data = pp_data.iloc[:130,:]
         ax = sns.heatmap(pp_data.iloc[:,1:], cmap = palette, cbar = False, xticklabels = False, yticklabels = False)
         ax.set_title("")
         ax.set_xlabel("")
