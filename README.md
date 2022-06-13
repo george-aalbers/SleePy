@@ -1,6 +1,6 @@
 # SleePy: Estimating sleep duration from smartphone application log data
 
-This Github repository contains code for the project "SleePy: An open-source machine learning tool for estimating sleep duration from smartphone usage log data". 
+This Github repository contains code for the project "SleePy: An open-source machine learning tool for estimating sleep duration from smartphone application usage log data". 
 
 ## Code
 - transform_mobiledna.py transforms the raw smartphone application usage log data into a format that allows us to downsample the smartphone log data to 15-minute time windows (i.e., total time spent on the smartphone per 15-minute time window). 
