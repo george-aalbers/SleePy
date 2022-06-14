@@ -2,6 +2,9 @@
 
 This Github repository contains code for the project "SleePy: An open-source machine learning tool for estimating sleep duration from smartphone application usage log data". 
 
+## SleePy
+This folder contains an iJupyter notebook with an example of how to run SleePy (imported from a .py file called sleepy.py) with a trained random forest (loaded from a pickle file called model.pkl).
+
 ## Code
 - transform_mobiledna.py transforms the raw smartphone application usage log data into a format that allows us to downsample the smartphone log data to 15-minute time windows (i.e., total time spent on the smartphone per 15-minute time window). 
 - clean_mobiledna.py cleans the resulting data. 
