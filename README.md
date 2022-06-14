@@ -1,6 +1,6 @@
 # SleePy: Estimating sleep duration from smartphone application log data
 
-This Github repository contains code for the project "SleePy: An open-source machine learning tool for estimating sleep duration from smartphone application usage log data". 
+This Github repository contains code for the project "SleePy: An open-source machine learning tool for estimating sleep duration from smartphone usage log data". 
 
 ## SleePy
 This folder contains an iJupyter notebook with an example of how to run SleePy (imported from a .py file called sleepy.py) with a trained random forest (loaded from a pickle file called model.pkl).
