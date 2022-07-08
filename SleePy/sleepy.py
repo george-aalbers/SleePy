@@ -18,7 +18,7 @@ def binarize(data):
     df.loc[:,"startTime"] = pd.to_datetime(df.startTime).tz_localize(None)
 
     # Resample the dataframe to minutes
-    df = df.groupby('id').resample("min").agg({"startTime":np.min, "endTime":np.max})
+    df = df.groupby('id').resample("S").agg({"startTime":np.min, "endTime":np.max})
 
     # Forward fill startTime and endTime
     df.startTime = df.startTime.fillna(method="ffill")
@@ -66,8 +66,8 @@ def pivot_data(df):
     # Set index
     log_data_pivoted_shifted.set_index(['id','date'], inplace = True)
     
-    # Divide by 15 to bring values within range 0 to 1
-    log_data_pivoted_shifted = log_data_pivoted_shifted/15
+    # Divide by 900 to bring values within range 0 to 1
+    log_data_pivoted_shifted = log_data_pivoted_shifted/900
     
     return log_data_pivoted_shifted
 
